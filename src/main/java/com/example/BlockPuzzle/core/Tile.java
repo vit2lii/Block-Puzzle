@@ -11,5 +11,12 @@ public class Tile {
         this.tileState = tileState;
         this.tileColor = tileColor;
     }
+
+    public boolean isEmptyTile() {
+        return tileState == TileState.EMPTY;
+    }
+    public boolean isMovableTile() {
+        return tileState == TileState.MOVABLE;
+    }
 }
 

@@ -2,36 +2,68 @@ package com.example.BlockPuzzle.core;
 
 import lombok.Data;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
 public class Board {
     private Block boardShape;
-    private boolean isFolded;
+    private Map<Block, Coordinate> blocksCoordinatesMap;
 
     public Board(Block boardShape) {
         this.boardShape = boardShape;
-        isFolded = false;
+        this.blocksCoordinatesMap = new HashMap<>();
     }
 
-    public void placeBlock(ShapeCoordinates blockToPlaceCoordinates) {
-        if (!isValidPlacement(blockToPlaceCoordinates)) {
+    public void placeBlockOnTiles(Block blockToPlace, int rowIndex, int colIndex) {
+        var blockToPlaceCoordinate = new Coordinate(rowIndex, colIndex);
+
+        if (!PlacementValidator.isValidPlacement(boardShape, blockToPlace, blockToPlaceCoordinate)) {
+            //TODO throw exception
             return;
         }
 
-        applyChangesToTiles((rowIndex, colIndex) ->
-                placeTileIfEmpty(blockToPlaceCoordinates, rowIndex, colIndex));
+        placeBlockOnTiles(blockToPlace, blockToPlaceCoordinate);
+        blocksCoordinatesMap.put(blockToPlace, blockToPlaceCoordinate);
     }
 
-    private void placeTileIfEmpty(ShapeCoordinates blockToPlaceCoordinates, int rowIndex, int colIndex) {
-        var x = blockToPlaceCoordinates.getX() + rowIndex;
-        var y = blockToPlaceCoordinates.getY() + colIndex;
-        var tile = boardShape.getTiles()[x][y];
+    public void removeBlock(int rowIndex, int colIndex) {
+        var blockToRemoveCoordinate = new Coordinate(rowIndex, colIndex);
 
-        if (tile.getTileState() == TileState.EMPTY) {
-            boardShape.getTiles()[x][y] = blockToPlaceCoordinates.getBlock().getTiles()[rowIndex][colIndex];
+        if (!blocksCoordinatesMap.containsValue(blockToRemoveCoordinate)) {
+            return;
         }
+
+        removeBlockOnTiles(blockToRemoveCoordinate);
     }
 
-    private void applyChangesToTiles(TileChanger tileChanger) {
+    public boolean isFolded() {
+        return Arrays.stream(boardShape.getTiles()).flatMap(Arrays::stream).noneMatch(tile -> tile.getTileState() == TileState.EMPTY);
+    }
+
+    private void placeBlockOnTiles(Block blockToPlace, Coordinate blockToPlaceCoordinates) {
+        applyChangesToTiles((rowIndex, colIndex) -> {
+            var x = blockToPlaceCoordinates.getX() + rowIndex;
+            var y = blockToPlaceCoordinates.getY() + colIndex;
+
+            if (isEmptyTile(x, y)) {
+                placeTile(blockToPlace.getTiles()[rowIndex][colIndex], x, y);
+            }
+        });
+    }
+
+    public void removeBlockOnTiles(Coordinate blockToRemoveCoordinates) {
+        applyChangesToTiles((rowIndex, colIndex) -> {
+            var tileToRemove = boardShape.getTiles()[blockToRemoveCoordinates.getX() + rowIndex][blockToRemoveCoordinates.getY() + colIndex];
+
+            if (tileToRemove.isMovableTile()) {
+                removeTile(blockToRemoveCoordinates.getX() + rowIndex, blockToRemoveCoordinates.getY() + colIndex);
+            }
+        });
+    }
+
+    public void applyChangesToTiles(TileChanger tileChanger) {
         for (int rowIndex = 0; rowIndex < Block.BLOCK_SIZE; rowIndex++) {
             for (int colIndex = 0; colIndex < Block.BLOCK_SIZE; colIndex++) {
                 tileChanger.changeTile(rowIndex, colIndex);
@@ -39,46 +71,20 @@ public class Board {
         }
     }
 
-    private boolean isValidPlacement(ShapeCoordinates blockToPlaceCoordinates) {
-        return !isOutOfBounds(blockToPlaceCoordinates) && collideWithWallsAndBlocks(blockToPlaceCoordinates);
+    public boolean isEmptyTile(int x, int y) {
+        return boardShape.getTiles()[x][y].isEmptyTile();
     }
 
-    private boolean isOutOfBounds(ShapeCoordinates blockToPlaceCoordinates) {
-        return blockToPlaceCoordinates.getX() < 0 ||
-                blockToPlaceCoordinates.getX() + Block.BLOCK_SIZE > boardShape.getRows() - 1 ||
-                blockToPlaceCoordinates.getY() < 0 ||
-                blockToPlaceCoordinates.getY() + Block.BLOCK_SIZE > boardShape.getColumns() - 1;
+    public void placeTile(Tile tileToPlace, int rowIndex, int colIndex) {
+        boardShape.getTiles()[rowIndex][colIndex] = tileToPlace;
     }
 
-    private boolean collideWithWallsAndBlocks(ShapeCoordinates blockPlaceCoordinates) {
-        return blockPlaceCoordinates.intersectsWithBoard(boardShape);
-    }
-
-    public void removeBlock(ShapeCoordinates blockCoordinates) {
-        if (isOutOfBounds(blockCoordinates)) {
-            return;
-        }
-
-        applyChangesToTiles((rowIndex, colIndex) ->
-                removeTileOfBlock(blockCoordinates, rowIndex, colIndex));
-    }
-
-    private void removeTileOfBlock(ShapeCoordinates blockToRemoveCoordinates, int rowIndex, int colIndex) {
-        var x = blockToRemoveCoordinates.getX() + rowIndex;
-        var y = blockToRemoveCoordinates.getY() + colIndex;
-        var tile = blockToRemoveCoordinates.getBlock().getTiles()[rowIndex][colIndex];
-
-        if (boardShape.getTiles()[x][y].getTileState() == tile.getTileState()) {
-            boardShape.getTiles()[x][y].setTileState(TileState.EMPTY);
-        }
-    }
-
-    public boolean isFolded() {
-        return isFolded;
+    public void removeTile(int x, int y) {
+        boardShape.getTiles()[x][y].setTileState(TileState.EMPTY);
     }
 
     @FunctionalInterface
-    private interface TileChanger {
+    public interface TileChanger {
         void changeTile(int rowIndex, int colIndex);
     }
 }
