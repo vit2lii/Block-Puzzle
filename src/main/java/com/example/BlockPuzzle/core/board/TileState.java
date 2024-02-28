@@ -1,4 +1,4 @@
-package com.example.BlockPuzzle.core;
+package com.example.BlockPuzzle.core.board;
 
 public enum TileState {
     EMPTY,

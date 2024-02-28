@@ -1,8 +1,12 @@
-package com.example.BlockPuzzle.core;
+package com.example.BlockPuzzle.core.board;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Tile {
     private TileState tileState;
     private Color tileColor;
@@ -17,6 +21,9 @@ public class Tile {
     }
     public boolean isMovableTile() {
         return tileState == TileState.MOVABLE;
+    }
+    public static Tile createBoardTile() {
+        return new Tile(TileState.EMPTY, Color.WHITE);
     }
 }
 

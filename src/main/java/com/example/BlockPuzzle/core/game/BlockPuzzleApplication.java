@@ -1,4 +1,4 @@
-package com.example.BlockPuzzle.core;
+package com.example.BlockPuzzle.core.game;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

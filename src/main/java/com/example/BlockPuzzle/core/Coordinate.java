@@ -1,10 +1,14 @@
 package com.example.BlockPuzzle.core;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Coordinate {
     private int x;
     private int y;
