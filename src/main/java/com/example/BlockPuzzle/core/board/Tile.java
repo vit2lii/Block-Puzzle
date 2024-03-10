@@ -19,9 +19,11 @@ public class Tile {
     public boolean isEmptyTile() {
         return tileState == TileState.EMPTY;
     }
+
     public boolean isMovableTile() {
         return tileState == TileState.MOVABLE;
     }
+
     public static Tile createBoardTile() {
         return new Tile(TileState.EMPTY, Color.WHITE);
     }

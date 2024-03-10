@@ -9,13 +9,13 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Block {
     public static final int BLOCK_SIZE = 3;
-    private int rowsQnt;
-    private int columnsQnt;
     private Tile[][] tiles;
 
-    public Block(int rows, int columns, Tile[][] tiles) {
-        this.rowsQnt = rows;
-        this.columnsQnt = columns;
+    public Block(Tile[][] tiles) {
         this.tiles = tiles;
+    }
+
+    public int getBlockWidth() {
+        return tiles.length;
     }
 }

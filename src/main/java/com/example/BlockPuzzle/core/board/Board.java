@@ -1,7 +1,6 @@
 package com.example.BlockPuzzle.core.board;
 
-import com.example.BlockPuzzle.core.Coordinate;
-import com.example.BlockPuzzle.core.PlacementValidator;
+import com.example.BlockPuzzle.core.utilities.Coordinate;
 import com.example.BlockPuzzle.core.exeptions.BlockNotFoundException;
 import com.example.BlockPuzzle.core.exeptions.InvalidPlacementException;
 import lombok.EqualsAndHashCode;
@@ -77,8 +76,8 @@ public class Board {
         });
     }
 
-    private void removeTile(int x, int y) {
-        boardShape.getTiles()[x][y] = Tile.createBoardTile();
+    private void removeTile(int rowIndex, int colIndex) {
+        boardShape.getTiles()[rowIndex][colIndex] = Tile.createBoardTile();
     }
 
     private boolean isEmptyTile(int x, int y) {
@@ -91,7 +90,7 @@ public class Board {
                         .forEach(colIndex -> tileChanger.changeTile(rowIndex, colIndex)));
     }
 
-    public boolean isFolded() {
+    public boolean isBoardFolded() {
         return Arrays.stream(boardShape.getTiles()).flatMap(Arrays::stream).noneMatch(tile -> tile.getTileState() == TileState.EMPTY);
     }
 

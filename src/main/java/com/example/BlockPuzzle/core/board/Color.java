@@ -2,16 +2,18 @@ package com.example.BlockPuzzle.core.board;
 
 public enum Color {
     BLACK,
-    WHITE,
-    GRAY,
-    BLUE,
-    CYAN,
-    GREEN,
-    LIME,
-    YELLOW,
-    ORANGE,
-    BROWN,
     RED,
+    GREEN,
+    YELLOW,
+    BLUE,
     MAGENTA,
-    PURPLE
+    CYAN,
+    GRAY,
+    BRIGHT_RED,
+    BRIGHT_GREEN,
+    BRIGHT_YELLOW,
+    BRIGHT_BLUE,
+    BRIGHT_MAGENTA,
+    BRIGHT_CYAN,
+    WHITE
 }

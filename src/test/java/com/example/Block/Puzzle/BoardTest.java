@@ -17,7 +17,7 @@ class BoardTest {
 
     private Board createEmptyBoard() {
         var boardSize = 9;
-        return new Board(new Block(boardSize, boardSize, new Tile[][]
+        return new Board(new Block(new Tile[][]
                 {
                         {createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
                         {createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
@@ -34,7 +34,7 @@ class BoardTest {
     }
 
     private Board createBoardClone(Board board) {
-        var boardSize = board.getBoardShape().getRowsQnt();
+        var boardSize = board.getBoardShape().getBlockWidth();
         var clonedTiles = new Tile[boardSize][boardSize];
 
         for (int row = 0; row < boardSize; row++) {
@@ -44,11 +44,11 @@ class BoardTest {
             }
         }
 
-        return new Board(new Block(boardSize, boardSize, clonedTiles));
+        return new Board(new Block(clonedTiles));
     }
 
     private Block createBlueSquareBlock() {
-        return new Block(Block.BLOCK_SIZE, Block.BLOCK_SIZE, new Tile[][]
+        return new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
@@ -63,7 +63,7 @@ class BoardTest {
         var blockToPlace = createBlueSquareBlock();
 
 
-        var expectedBoard = new Board(new Block(boardSize, boardSize, new Tile[][]
+        var expectedBoard = new Board(new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
@@ -134,12 +134,12 @@ class BoardTest {
     @Test
     void testIsFolded() {
         var board = new Board(createBlueSquareBlock());
-        assertTrue(board.isFolded());
+        assertTrue(board.isBoardFolded());
     }
 
     @Test
     void testIsNotFolded() {
         var board = createEmptyBoard();
-        assertFalse(board.isFolded());
+        assertFalse(board.isBoardFolded());
     }
 }

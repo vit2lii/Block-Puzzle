@@ -19,9 +19,7 @@ class BlockTest {
             }
         }
 
-        var block = new Block(Block.BLOCK_SIZE, Block.BLOCK_SIZE, tiles);
-        assertEquals(Block.BLOCK_SIZE, block.getRowsQnt());
-        assertEquals(Block.BLOCK_SIZE, block.getColumnsQnt());
+        var block = new Block(tiles);
         assertArrayEquals(tiles, block.getTiles());
     }
 }
