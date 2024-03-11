@@ -9,100 +9,148 @@ import java.util.List;
 import java.util.Map;
 
 public class GameMenuPrinter {
-    private static final String BLOCK = "\033[100;97m               \033[0m";
-    private static final String BLOCK_INSIDE = "\033[100;97m     •         \033[0m";
+    private static final String BLOCK_OUTSIDE = "               ";
+    private static final String BLOCK_INSIDE = "     •         ";
     private static final String SPACE = "    ";
+    private static final String BIG_SPACE = "         ";
+
     private final StringBuilder boardAndBlocksString;
     private final Map<Color, String> colorsBackgroundString;
 
     public GameMenuPrinter() {
         boardAndBlocksString = new StringBuilder();
-        colorsBackgroundString = new HashMap<>();
-        setMapWithValues();
+        colorsBackgroundString = initializeColorMap();
     }
 
     public void printBoardAndBlocks(Board board, List<Block> blocks) {
-        var boardWidth = board.getBoardShape().getBlockWidth();
+        int boardWidth = board.getBoardShape().getBlockWidth();
 
+        int blockNumber = 0;
+        int blockCount = blocks.size();
+        int blockRowIndex = 0;
         for (int i = 0; i < boardWidth; i++) {
-            int blockRowIndex = 0;
-            int blockCount = 0;
+            if (blockRowIndex == 3) {
+                blockNumber += 3;
+                blockRowIndex = 0;
+                addRowToString(boardWidth);
+                addRowWithNumberToString(boardWidth, i + 1);
+                addRowToString(boardWidth);
+            } else {
+                addRowToString(boardWidth);
+                printBlockRow(blocks, blockNumber, blockCount, blockRowIndex);
 
-            addRowToString(boardWidth);
-            //addBlockToString(blocks.get(blockCount), blockRowIndex);
+                addRowWithNumberToString(boardWidth, i + 1);
 
-            addRowWithNumberToString(boardWidth, i + 1);
-            addRowToString(boardWidth);
+                printBlockRow(blocks, blockNumber, blockCount, blockRowIndex);
+
+                addRowToString(boardWidth);
+
+                printBlockRow(blocks, blockNumber, blockCount, blockRowIndex);
+
+                blockRowIndex++;
+            }
+
         }
         addBoardNumbersToString(boardWidth);
 
         System.out.println(boardAndBlocksString);
     }
 
+    private void printBlockRow(List<Block> blocks, int blockNumber, int blockCount, int blockRowIndex) {
+        for (int j = 0; j < 3; j++) {
+            if (blockNumber < blockCount) {
+                addBlockToString(blocks.get(blockNumber++), blockRowIndex);
+            }
+        }
+    }
+
     private void addBlockToString(Block block, int rowIndex) {
-        if (block.getTiles()[rowIndex][0].isMovableTile()) {
-            boardAndBlocksString.append(colorsBackgroundString.get(block.getTiles()[rowIndex][0].getTileColor())).append("               \033[0m");
+        boardAndBlocksString.append(BIG_SPACE);
+
+        for (int colIndex = 0; colIndex < Block.BLOCK_SIZE; colIndex++) {
+            var tile = block.getTiles()[rowIndex][colIndex];
+            var color = tile.getTileColor();
+            if (tile.isMovableTile()) {
+                appendColoredTile(color);
+            } else {
+                appendEmptyTile();
+            }
         }
-        if (block.getTiles()[rowIndex][1].isMovableTile()) {
-            boardAndBlocksString.append(colorsBackgroundString.get(block.getTiles()[rowIndex][0].getTileColor())).append("               \033[0m");
-        }
-        if (block.getTiles()[rowIndex][2].isMovableTile()) {
-            boardAndBlocksString.append(colorsBackgroundString.get(block.getTiles()[rowIndex][0].getTileColor())).append("               \033[0m");
-        }
+    }
+
+    private void appendColoredTile(Color color) {
+        boardAndBlocksString.append(colorsBackgroundString.get(color)).append(BLOCK_OUTSIDE).append("\033[0m");
+    }
+
+    private void appendEmptyTile() {
+        boardAndBlocksString.append(BLOCK_OUTSIDE);
     }
 
     private void addRowToString(int boardWidth) {
-        boardAndBlocksString.append(BLOCK.repeat(Math.max(0, boardWidth)));
-        boardAndBlocksString.append("  \n");
+        boardAndBlocksString.append('\n');
+        for(int i = 0; i < boardWidth; i++) {
+            boardAndBlocksString.append(colorsBackgroundString.get(Color.GRAY)).append(BLOCK_OUTSIDE).append("\033[0m");
+        }
+        boardAndBlocksString.append("  ");
     }
 
     private void addRowWithNumberToString(int boardWidth, int number) {
-        boardAndBlocksString.append(BLOCK_INSIDE.repeat(Math.max(0, boardWidth)));
-        boardAndBlocksString.append(" ").append(number).append('\n');
+        boardAndBlocksString.append('\n');
+        for(int i = 0; i < boardWidth; i++) {
+            boardAndBlocksString.append(colorsBackgroundString.get(Color.GRAY)).append(BLOCK_INSIDE).append("\033[0m");
+        }
+        boardAndBlocksString.append(" ").append(number);
     }
 
     private void addBoardNumbersToString(int boardWidth) {
-        boardAndBlocksString.append(' ').append(SPACE);
+        boardAndBlocksString.append('\n').append(' ').append(SPACE);
         for (int i = 1; i <= boardWidth; i++) {
             boardAndBlocksString.append(i).append(SPACE).append(' ').append(SPACE).append(' ').append(SPACE);
         }
     }
 
-    public void askPlayerForNextMove() {
-        System.out.println("What would you like to do?");
-        System.out.println("1. Place a block");
-        System.out.println("2. Remove a block");
-        System.out.println("3. Surrender");
-        System.out.println("Enter your choice (1, 2, or 3): ");
+    public void printStartGameScreen() {
+
     }
 
-    public void printStartGameScreen() {
-        System.out.println();
+    public void askPlayerForNextMove() {
+        printMessage("What would you like to do?");
+        printMessage("1. Place a block");
+        printMessage("2. Remove a block");
+        printMessage("3. Surrender");
+        printMessage("Enter your choice (1, 2, or 3): ");
     }
 
     public void askOfGameLevel() {
-        System.out.println("Please choose the game level:");
-        System.out.println("1. Easy");
-        System.out.println("2. Medium");
-        System.out.println("3. Hard");
-        System.out.println("4. Tutorial");
-        System.out.println("Enter your choice (1, 2, 3 or 4): ");
+        printMessage("Please choose the game level:");
+        printMessage("1. Easy");
+        printMessage("2. Medium");
+        printMessage("3. Hard");
+        printMessage("4. Tutorial");
+        printMessage("Enter your choice (1, 2, 3 or 4): ");
     }
 
-    private void setMapWithValues() {
-        colorsBackgroundString.put(Color.BLACK, "\033[100;30m");
-        colorsBackgroundString.put(Color.RED, "\033[100;30m");
-        colorsBackgroundString.put(Color.GREEN, "\033[100;30m");
-        colorsBackgroundString.put(Color.YELLOW, "\033[100;30m");
-        colorsBackgroundString.put(Color.BLUE, "\033[100;30m");
-        colorsBackgroundString.put(Color.MAGENTA, "\033[100;30m");
-        colorsBackgroundString.put(Color.CYAN, "\033[100;30m");
-        colorsBackgroundString.put(Color.WHITE, "\033[100;30m");
-        colorsBackgroundString.put(Color.GRAY, "\033[100;30m");
-        colorsBackgroundString.put(Color.BRIGHT_RED, "\033[100;30m");
-        colorsBackgroundString.put(Color.BRIGHT_GREEN, "\033[100;30m");
-        colorsBackgroundString.put(Color.BRIGHT_YELLOW, "\033[100;30m");
-        colorsBackgroundString.put(Color.BRIGHT_BLUE, "\033[100;30m");
-        colorsBackgroundString.put(Color.BRIGHT_CYAN, "\033[100;30m");
+    private void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    private Map<Color, String> initializeColorMap() {
+        Map<Color, String> colorsBackgroundString = new HashMap<>();
+        colorsBackgroundString.put(Color.BLACK, "\033[40;97m");
+        colorsBackgroundString.put(Color.RED, "\033[41;97m");
+        colorsBackgroundString.put(Color.GREEN, "\033[42;97m");
+        colorsBackgroundString.put(Color.YELLOW, "\033[43;97m");
+        colorsBackgroundString.put(Color.BLUE, "\033[44;97m");
+        colorsBackgroundString.put(Color.MAGENTA, "\033[45;97m");
+        colorsBackgroundString.put(Color.CYAN, "\033[46;97m");
+        colorsBackgroundString.put(Color.WHITE, "\033[47;97m");
+        colorsBackgroundString.put(Color.GRAY, "\033[100;97m");
+        colorsBackgroundString.put(Color.BRIGHT_RED, "\033[101;97m");
+        colorsBackgroundString.put(Color.BRIGHT_GREEN, "\033[102;97m");
+        colorsBackgroundString.put(Color.BRIGHT_YELLOW, "\033[103;97m");
+        colorsBackgroundString.put(Color.BRIGHT_BLUE, "\033[104;97m");
+        colorsBackgroundString.put(Color.BRIGHT_MAGENTA, "\033[105;97m");
+        colorsBackgroundString.put(Color.BRIGHT_CYAN, "\033[106;97m");
+        return colorsBackgroundString;
     }
 }
