@@ -13,7 +13,7 @@ public class GameMenuPrinter {
     private static final String BLOCK_INSIDE = "     •         ";
     private static final String BIG_SPACE = "         ";
     private static final int BLOCK_TIMES_PRINT = 3;
-    private static final int BLOCK_IN_ROW = 4;
+    private static final int BLOCK_IN_ROW = 3;
 
     private final StringBuilder boardAndBlocksString;
     private final Map<Color, String> colorsBackgroundString;
@@ -30,7 +30,8 @@ public class GameMenuPrinter {
         int blockNumber = 0;
         int blockRowIndex = 0;
 
-        for (int i = 0; i < boardWidth; i++) {
+        addBoardNumbersToString(boardWidth);
+        for (int i = 0, n = 0; i < boardWidth || n < blocks.size(); i++) {
             if (blockRowIndex == BLOCK_TIMES_PRINT) {
                 addBoardRowsToString(board, i);
                 blockNumber += BLOCK_IN_ROW;
@@ -40,16 +41,22 @@ public class GameMenuPrinter {
                     addBoardRowAndBlocksToString(board, blocks, i, blockNumber, blockRowIndex, j);
                 }
                 blockRowIndex++;
+                if(blockRowIndex % 3 == 0) {
+                    n += BLOCK_IN_ROW;
+                }
             }
         }
 
-        addBoardNumbersToString(boardWidth);
         System.out.println(boardAndBlocksString);
     }
 
     private void addBoardRowsToString(Board board, int rowIndex) {
         for (int j = 1; j <= 3; j++) {
-            addBoardRowToString(board, rowIndex, j);
+            if(rowIndex < board.getBoardShape().getBlockWidth()) {
+                addBoardRowToString(board, rowIndex, j);
+            } else {
+                appendEmptyTile();
+            }
             boardAndBlocksString.append('\n');
         }
     }
@@ -57,10 +64,18 @@ public class GameMenuPrinter {
     private void addBoardRowToString(Board board, int rowIndex, int printTimeNumber) {
         var tiles = board.getBoardShape().getTiles();
         for (int i = 0; i < tiles.length; i++) {
-            appendColoredTile(tiles[rowIndex][i].getTileColor(), (printTimeNumber == 2) ? BLOCK_INSIDE : BLOCK_OUTSIDE);
-        }
+            if(rowIndex < tiles.length) {
+                appendColoredTile(tiles[rowIndex][i].getTileColor(), (printTimeNumber == 2) ? BLOCK_INSIDE : BLOCK_OUTSIDE);
+            } else {
+                appendEmptyTile();
 
-        boardAndBlocksString.append((printTimeNumber == 2) ? " " + (rowIndex + 1) : "  ");
+            }
+        }
+        if(rowIndex < tiles.length) {
+            boardAndBlocksString.append((printTimeNumber == 2) ? " " + (rowIndex + 1) : "  ");
+        } else {
+            boardAndBlocksString.append("  ");
+        }
     }
 
     private void addBoardRowAndBlocksToString(Board board, List<Block> blocks, int rowIndex, int blockNumber, int blockRowIndex, int printTimeNumber) {
@@ -107,40 +122,42 @@ public class GameMenuPrinter {
     }
 
     public void printStartGameScreen() {
-        // No implementation yet
+        System.out.println("Hello, welcome to Block Puzzle!!!\n");
     }
 
     public void askPlayerForNextMove() {
-        printMessage("What would you like to do?");
-        printMessage("1. Place a block");
-        printMessage("2. Remove a block");
-        printMessage("3. Surrender");
-        printMessage("Enter your choice (1, 2, or 3): ");
+        System.out.println("What would you like to do?");
+        System.out.println("1. Place a block");
+        System.out.println("2. Remove a block");
+        System.out.println("3. Surrender");
+        System.out.println("Enter your choice (1, 2, or 3): ");
     }
 
     public void askOfGameLevel() {
-        printMessage("Please choose the game level:");
-        printMessage("1. Easy");
-        printMessage("2. Medium");
-        printMessage("3. Hard");
-        printMessage("4. Tutorial");
-        printMessage("Enter your choice (1, 2, 3 or 4): ");
+        System.out.println("Please choose the game level:");
+        System.out.println("1. Easy");
+        System.out.println("2. Medium");
+        System.out.println("3. Hard");
+        System.out.println("4. Tutorial");
+        System.out.println("Enter your choice (1, 2, 3 or 4): ");
     }
 
     public void askWhatAndWherePlaceBlock() {
-        printMessage("Please choose the block you want to place and write X and Y coordinate where to place that block:");
-        printMessage("Enter your choice in the form B X Y (B, X and Y are numbers)");
+        System.out.println("Please choose the block you want to place and write X and Y coordinates where to place that block");
+        System.out.println("Enter your choice in the form B X Y (B, X and Y are numbers): ");
+    }
+
+    public void askWhereRemoveBlock() {
+        System.out.println("Please write X and Y coordinates to remove block from board");
+        System.out.println("Enter your choice in the form X Y (X and Y are numbers): ");
     }
 
     public void reportPlayerAboutBadInput() {
-        printMessage("Sorry, you inputted incorrect coordinates");
-        printMessage("");
+        System.out.println("Sorry, you inputted incorrect coordinates");
+        System.out.println();
     }
-
-    private void printMessage(String message) {
-        System.out.println(message);
-    }
-
+    
+    
     private Map<Color, String> initializeColorMap() {
         Map<Color, String> colorsBackgroundString = new HashMap<>();
         colorsBackgroundString.put(Color.BLACK, "\033[40;97m");
