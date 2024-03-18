@@ -1,11 +1,11 @@
-package com.example.BlockPuzzle.core.game;
+package com.example.BlockPuzzle.game;
 
 import com.example.BlockPuzzle.consoleui.GameMenuPrinter;
 import com.example.BlockPuzzle.core.board.Block;
 import com.example.BlockPuzzle.core.board.Board;
 import com.example.BlockPuzzle.core.exeptions.BlockNotFoundException;
 import com.example.BlockPuzzle.core.exeptions.InvalidPlacementException;
-import com.example.BlockPuzzle.core.game.levels.LevelFactory;
+import com.example.BlockPuzzle.game.levels.LevelFactory;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,13 +25,24 @@ public class ConsoleGame {
 
         while (true) {
             gameMenuPrinter.askOfGameLevel();
-            var levelInput = Parser.parseGameLevelInput(scanner.nextLine());
-            var level = levelFactory.createLevel(levelInput.getLevelValue());
+            var levelType = Parser.parseGameLevelInput(scanner.nextLine());
+            var level = levelFactory.createLevel(levelType);
 
             if (level != null) {
                 var board = level.generateBoard();
                 var blocks = level.generateBlocks();
                 playGame(board, blocks);
+            }
+
+            gameMenuPrinter.askToProceed();
+            var proceedPlayingChoice = Parser.proceedInput(scanner.nextLine());
+            switch (proceedPlayingChoice) {
+                case CONTINUE_PLAYING:
+                    break;
+                case LEAVE:
+                    return;
+                default:
+                    gameMenuPrinter.reportPlayerAboutBadInput();
             }
         }
     }
@@ -58,6 +69,8 @@ public class ConsoleGame {
 
             gameMenuPrinter.printBoardAndBlocks(board, blocks);
         }
+
+        gameMenuPrinter.printCongratulations();
     }
 
     private void handlePlaceBlock(Board board, List<Block> blocks) {
@@ -65,6 +78,7 @@ public class ConsoleGame {
 
         var placeBlockInput = Parser.placeBlockInput(scanner.nextLine());
         if(placeBlockInput == null) {
+            gameMenuPrinter.reportPlayerAboutBadInput();
             return;
         }
 
@@ -81,6 +95,7 @@ public class ConsoleGame {
 
         var removeBlockCoordinate = Parser.removeBlockInput(scanner.nextLine());
         if(removeBlockCoordinate == null) {
+            gameMenuPrinter.reportPlayerAboutBadInput();
             return;
         }
 

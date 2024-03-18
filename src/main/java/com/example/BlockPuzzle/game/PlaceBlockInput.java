@@ -1,4 +1,4 @@
-package com.example.BlockPuzzle.core.game;
+package com.example.BlockPuzzle.game;
 
 import com.example.BlockPuzzle.core.utilities.Coordinate;
 import lombok.AllArgsConstructor;

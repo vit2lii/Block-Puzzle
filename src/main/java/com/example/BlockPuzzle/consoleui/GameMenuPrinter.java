@@ -122,7 +122,14 @@ public class GameMenuPrinter {
     }
 
     public void printStartGameScreen() {
-        System.out.println("Hello, welcome to Block Puzzle!!!\n");
+        System.out.println("\n" +
+                "██████╗░██╗░░░░░░█████╗░░█████╗░██╗░░██╗██████╗░██╗░░░██╗███████╗███████╗██╗░░░░░███████╗\n" +
+                "██╔══██╗██║░░░░░██╔══██╗██╔══██╗██║░██╔╝██╔══██╗██║░░░██║╚════██║╚════██║██║░░░░░██╔════╝\n" +
+                "██████╦╝██║░░░░░██║░░██║██║░░╚═╝█████═╝░██████╔╝██║░░░██║░░███╔═╝░░███╔═╝██║░░░░░█████╗░░\n" +
+                "██╔══██╗██║░░░░░██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║██╔══╝░░██╔══╝░░██║░░░░░██╔══╝░░\n" +
+                "██████╦╝███████╗╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░╚██████╔╝███████╗███████╗███████╗███████╗\n" +
+                "╚═════╝░╚══════╝░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░░╚═════╝░╚══════╝╚══════╝╚══════╝╚══════╝\n" +
+                "Hello, welcome to the game!!!\n");
     }
 
     public void askPlayerForNextMove() {
@@ -138,7 +145,7 @@ public class GameMenuPrinter {
         System.out.println("1. Easy");
         System.out.println("2. Medium");
         System.out.println("3. Hard");
-        System.out.println("4. Tutorial");
+        System.out.println("4. Daily Puzzle");
         System.out.println("Enter your choice (1, 2, 3 or 4): ");
     }
 
@@ -153,10 +160,18 @@ public class GameMenuPrinter {
     }
 
     public void reportPlayerAboutBadInput() {
-        System.out.println("Sorry, you inputted incorrect coordinates");
-        System.out.println();
+        System.out.println("Sorry, you inputted incorrect coordinates\n");
     }
-    
+
+    public void askToProceed() {
+        System.out.println("Shall we keep playing?");
+        System.out.println("Type '1' to continue or '2' to exit.");
+    }
+
+    public void printCongratulations() {
+        System.out.println("Congratulations!");
+        System.out.println("You've completed the level successfully.\n");
+    }
     
     private Map<Color, String> initializeColorMap() {
         Map<Color, String> colorsBackgroundString = new HashMap<>();

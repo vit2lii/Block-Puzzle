@@ -1,5 +1,6 @@
-package com.example.BlockPuzzle.core.game;
+package com.example.BlockPuzzle.game;
 
+import com.example.BlockPuzzle.game.levels.GameLevel;
 import com.example.BlockPuzzle.core.utilities.Coordinate;
 
 import java.util.regex.Pattern;
@@ -7,6 +8,7 @@ import java.util.regex.Pattern;
 public class Parser {
     private static final Pattern GAME_LEVEL_PATTERN = Pattern.compile("\\s*(\\d+)\\s*");
     private static final Pattern GAME_PLAY_PATTERN = Pattern.compile("\\s*(\\d+)\\s*");
+    private static final Pattern PROCEED_PLAYING_PATTERN = Pattern.compile("\\s*(\\d+)\\s*");
     private static final Pattern PLACE_BLOCK_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
     private static final Pattern REMOVE_BLOCK_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s*");
 
@@ -68,4 +70,19 @@ public class Parser {
 
         return null;
     }
+
+    public static ProceedInput proceedInput(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return ProceedInput.INVALID;
+        }
+
+        var continuePlayingMatcher = PROCEED_PLAYING_PATTERN.matcher(input);
+        if (continuePlayingMatcher.find()) {
+            var choice = Integer.parseInt(continuePlayingMatcher.group(1));
+            return ProceedInput.getProceedPlayingChoice(choice);
+        }
+
+        return ProceedInput.INVALID;
+    }
+
 }

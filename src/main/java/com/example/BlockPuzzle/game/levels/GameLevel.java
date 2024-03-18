@@ -1,4 +1,4 @@
-package com.example.BlockPuzzle.core.game;
+package com.example.BlockPuzzle.game.levels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ public enum GameLevel {
     EASY(1),
     MEDIUM(2),
     HARD(3),
-    TUTORIAL(4),
+    DAILY_PUZZLE(4),
     INVALID(-1);
 
     private final int levelValue;
@@ -19,7 +19,7 @@ public enum GameLevel {
             case 1 -> GameLevel.EASY;
             case 2 -> GameLevel.MEDIUM;
             case 3 -> GameLevel.HARD;
-            case 4 -> GameLevel.TUTORIAL;
+            case 4 -> GameLevel.DAILY_PUZZLE;
             default -> GameLevel.INVALID;
         };
     }

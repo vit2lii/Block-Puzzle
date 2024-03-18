@@ -1,11 +1,11 @@
-package com.example.BlockPuzzle.core.game.levels;
+package com.example.BlockPuzzle.game.levels;
 
 import com.example.BlockPuzzle.core.board.Block;
 import com.example.BlockPuzzle.core.board.Board;
 
 import java.util.List;
 
-public class TutorialLevel implements Level {
+public class DailyPuzzle implements Level {
     @Override
     public Board generateBoard() {
         return null;

@@ -1,4 +1,4 @@
-package com.example.BlockPuzzle.core.game.levels;
+package com.example.BlockPuzzle.game.levels;
 
 import com.example.BlockPuzzle.core.board.Block;
 import com.example.BlockPuzzle.core.board.Board;
