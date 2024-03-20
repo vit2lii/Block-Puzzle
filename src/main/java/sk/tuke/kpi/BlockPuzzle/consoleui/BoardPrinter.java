@@ -25,12 +25,12 @@ public class BoardPrinter {
     public void printBoardAndBlocks(Board board, List<Block> blocks) {
         boardAndBlocksString.setLength(0);
 
-        int boardWidth = board.getBoardShape().getWidth();
+        final var boardWidth = board.getBoardShape().getWidth();
         int blockNumber = 0;
         int blockRowIndex = 0;
 
-        var newBlock = new ArrayList<Block>();
-        for(var block: blocks) {
+        final var newBlock = new ArrayList<Block>();
+        for(final var block: blocks) {
             newBlock.add(block.createBlockInStandardSize());
         }
 
@@ -66,7 +66,7 @@ public class BoardPrinter {
     }
 
     private void addBoardRowToString(Board board, int rowIndex, int printTimeNumber) {
-        var tiles = board.getBoardShape().getTiles();
+        final var tiles = board.getBoardShape().getTiles();
         for (int i = 0; i < tiles.length; i++) {
             if(rowIndex < tiles.length) {
                 appendColoredTile(tiles[rowIndex][i].getTileColor(), (printTimeNumber == 2) ? BLOCK_INSIDE : BLOCK_OUTSIDE);
@@ -88,7 +88,7 @@ public class BoardPrinter {
     }
 
     private void addBlocksToString(List<Block> blocks, int blockNumber, int blockRowIndex, int printTimeNumber) {
-        var blocksSize = blocks.size();
+        final var blocksSize = blocks.size();
 
         for (int j = 0; j < BLOCK_IN_ROW && blockNumber < blocksSize; j++) {
             appendBlockTiles(blocks.get(blockNumber++), blockRowIndex, (printTimeNumber == 2) ? BLOCK_INSIDE : BLOCK_OUTSIDE);
@@ -100,7 +100,7 @@ public class BoardPrinter {
         boardAndBlocksString.append(BIG_SPACE);
 
         for (int colIndex = 0; colIndex < Block.STANDARD_BLOCK_SIZE; colIndex++) {
-            var tile = block.getTiles()[rowIndex][colIndex];
+            final var tile = block.getTiles()[rowIndex][colIndex];
             if (tile.isEmptyTile()) {
                 appendEmptyTile();
             } else {

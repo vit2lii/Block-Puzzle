@@ -16,7 +16,7 @@ class BlockTest {
             }
         }
 
-        var block = new Block(tiles);
+        final var block = new Block(tiles);
         assertArrayEquals(tiles, block.getTiles());
     }
 }

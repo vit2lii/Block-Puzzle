@@ -24,19 +24,19 @@ public class MediumLevel implements Level {
 
     @Override
     public List<Block> generateBlocks() {
-        var block1 = new Block(new Tile[][]
+        final var block1 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.BLUE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)}
                 });
-        var block2 = new Block(new Tile[][]
+        final var block2 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN)},
                         {new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN)},
                         {new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN)}
                 });
-        var block3 = new Block(new Tile[][]
+        final var block3 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.RED)},
                         {new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.MOVABLE, Color.RED)},

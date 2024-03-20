@@ -1,21 +1,21 @@
 package com.example.Block.Puzzle;
 
-import sk.tuke.kpi.BlockPuzzle.core.board.*;
-import sk.tuke.kpi.BlockPuzzle.core.exeptions.*;
 import org.junit.jupiter.api.Test;
+import sk.tuke.kpi.BlockPuzzle.core.board.*;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.BlockNotFoundException;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.InvalidPlacementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
     private Board board;
-    
+
     private Tile createBoardTile() {
         return new Tile(TileState.EMPTY, Color.WHITE);
     }
 
     private Board createEmptyBoard() {
-        var boardSize = 9;
         return new Board(new Block(new Tile[][]
                 {
                         {createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
@@ -33,12 +33,12 @@ class BoardTest {
     }
 
     private Board createBoardClone(Board board) {
-        var boardSize = board.getBoardShape().getWidth();
-        var clonedTiles = new Tile[boardSize][boardSize];
+        final var boardSize = board.getBoardShape().getWidth();
+        final var clonedTiles = new Tile[boardSize][boardSize];
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
-                var originalTile = board.getBoardShape().getTiles()[row][col];
+                final var originalTile = board.getBoardShape().getTiles()[row][col];
                 clonedTiles[row][col] = new Tile(originalTile.getTileState(), originalTile.getTileColor());
             }
         }
@@ -51,18 +51,16 @@ class BoardTest {
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
-                        {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE) ,new Tile(TileState.MOVABLE, Color.BLUE)}
+                        {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)}
                 });
     }
 
     @Test
     void testPlaceBlockOnEmptyBoard() {
-        var boardSize = 9;
-        var board = createEmptyBoard();
-        var blockToPlace = createBlueSquareBlock();
+        final var board = createEmptyBoard();
+        final var blockToPlace = createBlueSquareBlock();
 
-
-        var expectedBoard = new Board(new Block(new Tile[][]
+        final var expectedBoard = new Board(new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile(), createBoardTile()},
@@ -85,12 +83,12 @@ class BoardTest {
 
     @Test
     void testPlaceBlockOnFilledWithOneTileBoard() {
-        var board = createEmptyBoard();
+        final var board = createEmptyBoard();
         board.getBoardShape().getTiles()[1][1].setTileState(TileState.MOVABLE);
         board.getBoardShape().getTiles()[1][1].setTileColor(Color.RED);
 
-        var expectedBoard = createBoardClone(board);
-        var blockToPlace = createBlueSquareBlock();
+        final var expectedBoard = createBoardClone(board);
+        final var blockToPlace = createBlueSquareBlock();
 
         assertThrows(InvalidPlacementException.class, () -> board.placeBlock(blockToPlace, 0, 0));
         assertArrayEquals(expectedBoard.getBoardShape().getTiles(), board.getBoardShape().getTiles());
@@ -99,12 +97,12 @@ class BoardTest {
 
     @Test
     void testRemoveSquareBlock() {
-       var board = createEmptyBoard();
-       var blockToPlace = createBlueSquareBlock();
+        final var board = createEmptyBoard();
+        final var blockToPlace = createBlueSquareBlock();
 
-       board.placeBlock(blockToPlace, 0 , 0);
+        board.placeBlock(blockToPlace, 0, 0);
 
-       var removedBlock = board.removeBlock(0, 0);
+        final var removedBlock = board.removeBlock(0, 0);
 
         assertArrayEquals(createEmptyBoard().getBoardShape().getTiles(), board.getBoardShape().getTiles());
         assertArrayEquals(blockToPlace.getTiles(), removedBlock.getTiles());
@@ -113,11 +111,11 @@ class BoardTest {
 
     @Test
     void testRemoveSquareBlockOnWrongPosition() {
-        var board = createEmptyBoard();
-        var blockToPlace = createBlueSquareBlock();
+        final var board = createEmptyBoard();
+        final var blockToPlace = createBlueSquareBlock();
 
-        board.placeBlock(blockToPlace, 0 , 0);
-        var boardWithSquare = createBoardClone(board);
+        board.placeBlock(blockToPlace, 0, 0);
+        final var boardWithSquare = createBoardClone(board);
 
         assertThrows(BlockNotFoundException.class, () -> board.removeBlock(0, 1));
         assertArrayEquals(boardWithSquare.getBoardShape().getTiles(), board.getBoardShape().getTiles());
@@ -126,19 +124,19 @@ class BoardTest {
 
     @Test
     void testRemoveBlockNotFound() {
-        var board = createEmptyBoard();
+        final var board = createEmptyBoard();
         assertThrows(BlockNotFoundException.class, () -> board.removeBlock(0, 0));
     }
 
     @Test
     void testIsFolded() {
-        var board = new Board(createBlueSquareBlock());
+        final var board = new Board(createBlueSquareBlock());
         assertTrue(board.isBoardFolded());
     }
 
     @Test
     void testIsNotFolded() {
-        var board = createEmptyBoard();
+        final var board = createEmptyBoard();
         assertFalse(board.isBoardFolded());
     }
 }

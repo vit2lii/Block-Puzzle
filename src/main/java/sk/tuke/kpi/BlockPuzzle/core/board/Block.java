@@ -20,7 +20,7 @@ public class Block {
     }
 
     public Block createBlockInStandardSize() {
-        var newBlock = new Block(new Tile[][]
+        final var newBlock = new Block(new Tile[][]
                 {
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.EMPTY, Color.WHITE)},
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.EMPTY, Color.WHITE)},

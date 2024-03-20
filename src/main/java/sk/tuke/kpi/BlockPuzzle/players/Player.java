@@ -20,8 +20,8 @@ public class Player {
 
     public void addComment(String game, String comment) {
         try {
-            var newComment = new Comment(nickname, game, comment, new Date());
-            var commentService = new CommentServiceJDBC();
+            final var newComment = new Comment(nickname, game, comment, new Date());
+            final var commentService = new CommentServiceJDBC();
             commentService.addComment(newComment);
         } catch (CommentException e) {
             // do nothing
@@ -41,7 +41,7 @@ public class Player {
         }
 
         try {
-            var ratingService = new RatingServiceJDBC();
+            final var ratingService = new RatingServiceJDBC();
             ratingService.setRating(new Rating(nickname, game, playerRating, new Date()));
         } catch (RatingException e) {
             // do nothing
@@ -50,7 +50,7 @@ public class Player {
 
     public void setScore(String game, int score) {
         try {
-            var scoreService = new ScoreServiceJDBC();
+            final var scoreService = new ScoreServiceJDBC();
             scoreService.addScore(new Score(nickname, game, score, new Date()));
             this.score = score;
         } catch (ScoreException e) {

@@ -50,7 +50,7 @@ public class RatingServiceJDBC implements RatingService {
             statement.setString(1, player);
             try (var resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    var rating = new Rating(resultSet.getString(1),
+                    final var rating = new Rating(resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getInt(3),
                             resultSet.getTimestamp(4));
@@ -78,7 +78,7 @@ public class RatingServiceJDBC implements RatingService {
     }
 
     private boolean playerExists(Connection connection, String player) throws SQLException {
-        var sql = "SELECT 1 FROM rating WHERE player = ?";
+        final var sql = "SELECT 1 FROM rating WHERE player = ?";
         try (var statement = connection.prepareStatement(sql)) {
             statement.setString(1, player);
             try (var resultSet = statement.executeQuery()) {
@@ -96,7 +96,7 @@ public class RatingServiceJDBC implements RatingService {
     }
 
     private void updateExistingPlayerRating(Connection connection, Rating rating) throws SQLException {
-        var updateColumn = "UPDATE rating SET rating = ?, ratedOn = ? WHERE player = ?";
+        final var updateColumn = "UPDATE rating SET rating = ?, ratedOn = ? WHERE player = ?";
         try (var statement = connection.prepareStatement(updateColumn)) {
             statement.setInt(1, rating.getRating());
             statement.setTimestamp(2, new Timestamp(System.currentTimeMillis()));

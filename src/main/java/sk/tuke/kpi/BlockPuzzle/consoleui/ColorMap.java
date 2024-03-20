@@ -35,7 +35,7 @@ public class ColorMap {
     }
 
     private Map<Color, String> initializeTextColorMap() {
-        Map<Color, String> textColorMap = new HashMap<>();
+        final Map<Color, String> textColorMap = new HashMap<>();
         textColorMap.put(Color.BLACK, "\033[30m");
         textColorMap.put(Color.RED, "\033[31m");
         textColorMap.put(Color.GREEN, "\033[32m");

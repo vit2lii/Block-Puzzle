@@ -16,8 +16,8 @@ public class CommentServiceJDBC implements CommentService {
 
     @Override
     public void addComment(Comment comment) throws CommentException {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT)
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.prepareStatement(INSERT)
         ) {
             statement.setString(1, comment.getGame());
             statement.setString(2, comment.getPlayer());
@@ -31,12 +31,12 @@ public class CommentServiceJDBC implements CommentService {
 
     @Override
     public List<Comment> getComments(String game) throws CommentException {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT)
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.prepareStatement(SELECT)
         ) {
             statement.setString(1, game);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                List<Comment> comments = new ArrayList<>();
+            try (var resultSet = statement.executeQuery()) {
+                final List<Comment> comments = new ArrayList<>();
                 while (resultSet.next()) {
                     comments.add(new Comment(resultSet.getString(1),
                             resultSet.getString(2),
@@ -52,8 +52,8 @@ public class CommentServiceJDBC implements CommentService {
 
     @Override
     public void reset() throws CommentException {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement();
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.createStatement();
         ) {
             statement.executeUpdate(DELETE);
         } catch (SQLException e) {

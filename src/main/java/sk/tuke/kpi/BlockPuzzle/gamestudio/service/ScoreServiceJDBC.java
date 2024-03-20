@@ -16,8 +16,8 @@ public class ScoreServiceJDBC implements ScoreService {
 
     @Override
     public void addScore(Score score) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT)
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.prepareStatement(INSERT)
         ) {
             if (!playerExists(connection, score.getPlayer())) {
                 addNewPlayerScore(statement, score);
@@ -31,12 +31,12 @@ public class ScoreServiceJDBC implements ScoreService {
 
     @Override
     public List<Score> getTopScores(String game) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(SELECT)
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.prepareStatement(SELECT)
         ) {
             statement.setString(1, game);
             try (ResultSet rs = statement.executeQuery()) {
-                List<Score> scores = new ArrayList<>();
+                final List<Score> scores = new ArrayList<>();
                 while (rs.next()) {
                     scores.add(new Score(rs.getString(1),
                             rs.getString(2),
@@ -52,8 +52,8 @@ public class ScoreServiceJDBC implements ScoreService {
 
     @Override
     public void reset() {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement()
+        try (var connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             var statement = connection.createStatement()
         ) {
             statement.executeUpdate(DELETE);
         } catch (SQLException e) {
@@ -62,11 +62,11 @@ public class ScoreServiceJDBC implements ScoreService {
     }
 
     private boolean playerExists(Connection connection, String player) throws SQLException {
-        String sql = "SELECT 1 FROM score WHERE player = ?";
+        final var sql = "SELECT 1 FROM score WHERE player = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (var statement = connection.prepareStatement(sql)) {
             statement.setString(1, player);
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (var resultSet = statement.executeQuery()) {
                 return resultSet.next();
             }
         }
@@ -81,9 +81,9 @@ public class ScoreServiceJDBC implements ScoreService {
     }
 
     private void updateExistingPlayerScore(Connection connection, Score score) {
-        String updateColumn = "UPDATE score SET points = ? WHERE player = ?";
+        final var updateColumn = "UPDATE score SET points = ? WHERE player = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(updateColumn)) {
+        try (var statement = connection.prepareStatement(updateColumn)) {
             statement.setInt(1, score.getPoints());
             statement.setString(2, score.getPlayer());
             statement.executeUpdate();

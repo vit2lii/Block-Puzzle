@@ -4,7 +4,7 @@ import sk.tuke.kpi.BlockPuzzle.game.ConsoleBlockPuzzleGame;
 
 public class BlockPuzzleApplication {
     public static void main(String[] args) {
-        var consoleBlockPuzzleGame = new ConsoleBlockPuzzleGame();
+        final var consoleBlockPuzzleGame = new ConsoleBlockPuzzleGame();
         consoleBlockPuzzleGame.startGame();
     }
 }

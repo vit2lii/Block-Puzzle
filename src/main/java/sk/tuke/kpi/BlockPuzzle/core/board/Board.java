@@ -25,7 +25,7 @@ public class Board {
     }
 
     public void placeBlock(Block blockToPlace, int rowPlaceIndex, int colPlaceIndex) {
-        var blockToPlaceCoordinate = new Coordinate(rowPlaceIndex, colPlaceIndex);
+        final var blockToPlaceCoordinate = new Coordinate(rowPlaceIndex, colPlaceIndex);
 
         if (!PlacementValidator.isValidPlacement(boardShape, blockToPlace, blockToPlaceCoordinate)) {
             throw new InvalidPlacementException("Invalid placement of block.");
@@ -36,12 +36,12 @@ public class Board {
     }
 
     private void placeBlockOnTiles(Block blockToPlace, Coordinate blockToPlaceCoordinates) {
-        int blockWidth = blockToPlace.getWidth();
-        int blockHeight = blockToPlace.getHeight();
+        final var blockWidth = blockToPlace.getWidth();
+        final var blockHeight = blockToPlace.getHeight();
 
         applyChangesToTiles(blockWidth, blockHeight, (rowIndex, colIndex) -> {
-            int x = blockToPlaceCoordinates.getX() + rowIndex;
-            int y = blockToPlaceCoordinates.getY() + colIndex;
+            final var x = blockToPlaceCoordinates.getX() + rowIndex;
+            final var y = blockToPlaceCoordinates.getY() + colIndex;
 
             if (isEmptyTile(x, y)) {
                 placeTile(blockToPlace.getTiles()[rowIndex][colIndex], x, y);
@@ -54,9 +54,9 @@ public class Board {
     }
 
     public Block removeBlock(int rowIndex, int colIndex) {
-        var blockToRemoveCoordinate = new Coordinate(rowIndex, colIndex);
+        final var blockToRemoveCoordinate = new Coordinate(rowIndex, colIndex);
 
-        var blockToRemove = blocksCoordinatesMap.entrySet().stream()
+        final var blockToRemove = blocksCoordinatesMap.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(blockToRemoveCoordinate))
                 .map(Map.Entry::getKey)
                 .findFirst()
@@ -70,8 +70,8 @@ public class Board {
 
     private void removeBlockOnTiles(Coordinate blockToRemoveCoordinates, int blockWidth, int blockHeight) {
         applyChangesToTiles(blockWidth, blockHeight, (rowIndex, colIndex) -> {
-            int x = blockToRemoveCoordinates.getX() + rowIndex;
-            int y = blockToRemoveCoordinates.getY() + colIndex;
+            final var x = blockToRemoveCoordinates.getX() + rowIndex;
+            final var y = blockToRemoveCoordinates.getY() + colIndex;
 
             if (x >= 0 && y >= 0 && x < boardShape.getHeight() && y < boardShape.getWidth()) {
                 removeTile(x, y);

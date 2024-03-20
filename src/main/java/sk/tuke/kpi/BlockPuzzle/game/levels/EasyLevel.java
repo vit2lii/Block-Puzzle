@@ -22,7 +22,7 @@ public class EasyLevel implements Level {
 
     @Override
     public List<Block> generateBlocks() {
-        var block1 = new Block(new Tile[][]
+        final var block1 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.MOVABLE, Color.RED)},
                         {new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.MOVABLE, Color.RED), new Tile(TileState.MOVABLE, Color.RED)},
@@ -30,33 +30,33 @@ public class EasyLevel implements Level {
                 });
 
 
-        var block2 = new Block(new Tile[][]
+        final var block2 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.YELLOW), new Tile(TileState.MOVABLE, Color.YELLOW), new Tile(TileState.MOVABLE, Color.YELLOW)},
                         {new Tile(TileState.MOVABLE, Color.YELLOW), new Tile(TileState.MOVABLE, Color.YELLOW), new Tile(TileState.MOVABLE, Color.YELLOW)}
                 });
 
-        var block3 = new Block(new Tile[][]
+        final var block3 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.GREEN)},
                         {new Tile(TileState.EMPTY, Color.WHITE), new Tile(TileState.MOVABLE, Color.GREEN)},
                         {new Tile(TileState.MOVABLE, Color.GREEN), new Tile(TileState.MOVABLE, Color.GREEN)}
                 });
 
-        var block4 = new Block(new Tile[][]
+        final var block4 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.EMPTY, Color.WHITE)},
                         {new Tile(TileState.MOVABLE, Color.BLUE), new Tile(TileState.MOVABLE, Color.BLUE)}
                 });
 
-        var block5 = new Block(new Tile[][]
+        final var block5 = new Block(new Tile[][]
                 {
                         {new Tile(TileState.MOVABLE, Color.MAGENTA), new Tile(TileState.MOVABLE, Color.MAGENTA)},
                         {new Tile(TileState.MOVABLE, Color.MAGENTA), new Tile(TileState.MOVABLE, Color.MAGENTA)}
                 });
 
-        List<Block> blocks = new ArrayList<>();
+        final List<Block> blocks = new ArrayList<>();
         blocks.add(block1);
         blocks.add(block2);
         blocks.add(block3);

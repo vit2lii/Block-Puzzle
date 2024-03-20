@@ -18,10 +18,10 @@ public class Parser {
             return GameLevel.INVALID;
         }
 
-        var gameLevelMatcher = GAME_LEVEL_PATTERN.matcher(input);
+        final var gameLevelMatcher = GAME_LEVEL_PATTERN.matcher(input);
         if (gameLevelMatcher.find()) {
             try {
-                var level = Integer.parseInt(gameLevelMatcher.group(1));
+                final var level = Integer.parseInt(gameLevelMatcher.group(1));
                 return GameLevel.getGameLevel(level);
             } catch (NumberFormatException e) {
                 return GameLevel.INVALID;
@@ -36,10 +36,10 @@ public class Parser {
             return GamePlayType.INVALID;
         }
 
-        var gameLevelMatcher = GAME_PLAY_PATTERN.matcher(input);
+        final var gameLevelMatcher = GAME_PLAY_PATTERN.matcher(input);
         if (gameLevelMatcher.find()) {
             try {
-                var level = Integer.parseInt(gameLevelMatcher.group(1));
+                final var level = Integer.parseInt(gameLevelMatcher.group(1));
                 return GamePlayType.getGamePlayType(level);
             } catch (NumberFormatException e) {
                 return GamePlayType.INVALID;
@@ -54,11 +54,11 @@ public class Parser {
             return null;
         }
 
-        var removeBlockMatcher = REMOVE_BLOCK_PATTERN.matcher(input);
+        final var removeBlockMatcher = REMOVE_BLOCK_PATTERN.matcher(input);
         if (removeBlockMatcher.find()) {
             try {
-                var xCoordinate = Integer.parseInt(removeBlockMatcher.group(1));
-                var yCoordinate = Integer.parseInt(removeBlockMatcher.group(2));
+                final var xCoordinate = Integer.parseInt(removeBlockMatcher.group(1));
+                final var yCoordinate = Integer.parseInt(removeBlockMatcher.group(2));
                 return new Coordinate(xCoordinate, yCoordinate);
             } catch (NumberFormatException e) {
                 return null;
@@ -73,12 +73,12 @@ public class Parser {
             return null;
         }
 
-        var removeBlockMatcher = PLACE_BLOCK_PATTERN.matcher(input);
+        final var removeBlockMatcher = PLACE_BLOCK_PATTERN.matcher(input);
         if (removeBlockMatcher.find()) {
             try {
-                var blockIndex = Integer.parseInt(removeBlockMatcher.group(1));
-                var xCoordinate = Integer.parseInt(removeBlockMatcher.group(2));
-                var yCoordinate = Integer.parseInt(removeBlockMatcher.group(3));
+                final var blockIndex = Integer.parseInt(removeBlockMatcher.group(1));
+                final var xCoordinate = Integer.parseInt(removeBlockMatcher.group(2));
+                final var yCoordinate = Integer.parseInt(removeBlockMatcher.group(3));
                 return new PlaceBlockInput(blockIndex, new Coordinate(xCoordinate, yCoordinate));
             } catch (NumberFormatException e) {
                 return null;
@@ -93,10 +93,10 @@ public class Parser {
             return ProceedInput.INVALID;
         }
 
-        var continuePlayingMatcher = PROCEED_PLAYING_PATTERN.matcher(input);
+        final var continuePlayingMatcher = PROCEED_PLAYING_PATTERN.matcher(input);
         if (continuePlayingMatcher.find()) {
             try {
-                var choice = Integer.parseInt(continuePlayingMatcher.group(1));
+                final var choice = Integer.parseInt(continuePlayingMatcher.group(1));
                 return ProceedInput.getProceedPlayingChoice(choice);
             } catch (NumberFormatException e) {
                 return ProceedInput.INVALID;
@@ -111,10 +111,10 @@ public class Parser {
             return LeaveCommentOrRatingInput.INVALID;
         }
 
-        var leaveMatcher = LEAVE_COMMENT_OR_RATING_PATTERN.matcher(input);
+        final var leaveMatcher = LEAVE_COMMENT_OR_RATING_PATTERN.matcher(input);
         if (leaveMatcher.find()) {
             try {
-                var choice = Integer.parseInt(leaveMatcher.group(1));
+                final var choice = Integer.parseInt(leaveMatcher.group(1));
                 return LeaveCommentOrRatingInput.getLeaveCommentOrRatingInput(choice);
             } catch (NumberFormatException e) {
                 return LeaveCommentOrRatingInput.INVALID;

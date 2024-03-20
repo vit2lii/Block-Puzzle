@@ -32,10 +32,10 @@ public class ConsoleBlockPuzzleGame {
     public void startGame() {
         gameMenuPrinter.printStartGameScreen();
 
-        var player = createPlayer();
+        final var player = createPlayer();
 
         while (true) {
-            var levelType = askForGameLevel();
+            final var levelType = askForGameLevel();
             if (levelType == GameLevel.INVALID) {
                 gameMenuPrinter.reportPlayerAboutBadInput();
                 continue;
@@ -44,14 +44,14 @@ public class ConsoleBlockPuzzleGame {
                 return;
             }
 
-            var level = LevelFactory.createLevel(levelType);
+            final var level = LevelFactory.createLevel(levelType);
             if (level != null) {
-                var board = level.generateBoard();
-                var blocks = level.generateBlocks();
+                final var board = level.generateBoard();
+                final var blocks = level.generateBlocks();
                 playGame(board, blocks, player);
             }
 
-            var proceedPlayingChoice = askToProceed();
+            final var proceedPlayingChoice = askToProceed();
             switch (proceedPlayingChoice) {
                 case CONTINUE_PLAYING:
                     break;
@@ -68,7 +68,7 @@ public class ConsoleBlockPuzzleGame {
         boardPrinter.printBoardAndBlocks(board, blocks);
 
         while (!board.isBoardFolded()) {
-            var gamePlayType = askPlayerForNextMove();
+            final var gamePlayType = askPlayerForNextMove();
             switch (gamePlayType) {
                 case PLACE_BLOCK:
                     handlePlaceBlock(board, blocks);
@@ -88,7 +88,7 @@ public class ConsoleBlockPuzzleGame {
     }
 
     private Player createPlayer() {
-        var nickname = getPlayerNickname();
+        final var nickname = getPlayerNickname();
         return new Player(nickname);
     }
 
@@ -114,7 +114,7 @@ public class ConsoleBlockPuzzleGame {
     private void handlePlaceBlock(Board board, List<Block> blocks) {
         gameMenuPrinter.askWhatAndWherePlaceBlock();
 
-        var placeBlockInput = Parser.placeBlockInput(scanner.nextLine());
+        final var placeBlockInput = Parser.placeBlockInput(scanner.nextLine());
         if (placeBlockInput == null || placeBlockInput.getBlockIndex() < 1 || placeBlockInput.getBlockIndex() > blocks.size()){
             gameMenuPrinter.reportPlayerAboutBadInput();
             return;
@@ -131,14 +131,14 @@ public class ConsoleBlockPuzzleGame {
     private void handleRemoveBlock(Board board, List<Block> blocks) {
         gameMenuPrinter.askWhereRemoveBlock();
 
-        var removeBlockCoordinate = Parser.removeBlockInput(scanner.nextLine());
+        final var removeBlockCoordinate = Parser.removeBlockInput(scanner.nextLine());
         if (removeBlockCoordinate == null) {
             gameMenuPrinter.reportPlayerAboutBadInput();
             return;
         }
 
         try {
-            var block = board.removeBlock(removeBlockCoordinate.getY() - 1, removeBlockCoordinate.getX() - 1);
+            final var block = board.removeBlock(removeBlockCoordinate.getY() - 1, removeBlockCoordinate.getX() - 1);
             blocks.add(block);
         } catch (BlockNotFoundException e) {
             gameMenuPrinter.reportPlayerAboutBadInput();
@@ -157,10 +157,10 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveComment(Player player) {
         gameMenuPrinter.askLeaveComment();
-        var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
+        final var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
         if (choice == LeaveCommentOrRatingInput.LEAVE) {
             gameMenuPrinter.printCommentAdding();
-            var input = scanner.nextLine();
+            final var input = scanner.nextLine();
             if (input != null && !input.isEmpty() && !input.isBlank() && input.length() <= 64) {
                 player.addComment(GAME_NAME, input);
             }
@@ -169,10 +169,10 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveRating(Player player) {
         gameMenuPrinter.askLeaveRating();
-        var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
+        final var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
         if (choice == LeaveCommentOrRatingInput.LEAVE) {
             gameMenuPrinter.printRatingAdding();
-            var input = scanner.nextLine();
+            final var input = scanner.nextLine();
             if (input != null && !input.isEmpty() && !input.isBlank()) {
                 player.setRating(GAME_NAME, input);
             }
