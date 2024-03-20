@@ -1,8 +1,7 @@
 package com.example.Block.Puzzle;
 
-import com.example.BlockPuzzle.core.board.*;
-import com.example.BlockPuzzle.core.exeptions.BlockNotFoundException;
-import com.example.BlockPuzzle.core.exeptions.InvalidPlacementException;
+import sk.tuke.kpi.BlockPuzzle.core.board.*;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +33,7 @@ class BoardTest {
     }
 
     private Board createBoardClone(Board board) {
-        var boardSize = board.getBoardShape().getBlockWidth();
+        var boardSize = board.getBoardShape().getWidth();
         var clonedTiles = new Tile[boardSize][boardSize];
 
         for (int row = 0; row < boardSize; row++) {
