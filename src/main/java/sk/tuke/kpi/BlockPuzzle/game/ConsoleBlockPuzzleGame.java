@@ -32,6 +32,7 @@ public class ConsoleBlockPuzzleGame {
 
     public void startGame() {
         gameMenuPrinter.printStartGameScreen();
+        gameMenuPrinter.printAboutGame();
         gameMenuPrinter.printHallOfFame(new ScoreServiceJDBC().getTopScores(GAME_NAME));
         gameMenuPrinter.printAverageRating(new RatingServiceJDBC().getAverageRating(GAME_NAME));
         gameMenuPrinter.printComments(new CommentServiceJDBC().getComments(GAME_NAME));

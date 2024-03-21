@@ -24,7 +24,7 @@ public class Tile {
         return tileState == TileState.MOVABLE;
     }
 
-    public static Tile createBoardTile() {
+    public static Tile createEmptyTile() {
         return new Tile(TileState.EMPTY, Color.WHITE);
     }
 

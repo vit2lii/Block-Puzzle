@@ -80,7 +80,7 @@ public class Board {
     }
 
     private void removeTile(int rowIndex, int colIndex) {
-        boardShape.getTiles()[rowIndex][colIndex] = Tile.createBoardTile();
+        boardShape.getTiles()[rowIndex][colIndex] = Tile.createEmptyTile();
     }
 
     private boolean isEmptyTile(int x, int y) {
@@ -101,7 +101,7 @@ public class Board {
         var tiles = new Tile[boardSize][boardSize];
         for(int i = 0; i < boardSize; i++) {
             for(int j = 0; j < boardSize; j++) {
-                tiles[i][j] = Tile.createBoardTile();
+                tiles[i][j] = Tile.createEmptyTile();
             }
         }
         return new Board(new Block(tiles));

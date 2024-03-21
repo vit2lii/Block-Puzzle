@@ -22,7 +22,7 @@ public class GameMenuPrinter {
                 "██╔══██╗██║░░░░░██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║██╔══╝░░██╔══╝░░██║░░░░░██╔══╝░░\n" +
                 "██████╦╝███████╗╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░╚██████╔╝███████╗███████╗███████╗███████╗\n" +
                 "╚═════╝░╚══════╝░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░░╚═════╝░╚══════╝╚══════╝╚══════╝╚══════╝\n" +
-                "\t\t\t\t\t\t\t" + colorMap.getTextColor(Color.MAGENTA) + "HELLO, WELCOME TO THE GAME!!!\n" + colorMap.getDefaultColor());
+                "\n\t\t\t\t\t\t\t" + colorMap.getTextColor(Color.MAGENTA) + "HELLO, WELCOME TO THE GAME!!!\n" + colorMap.getDefaultColor());
     }
 
     public void printHallOfFame(List<Score> topScores) {
@@ -52,13 +52,21 @@ public class GameMenuPrinter {
         System.out.println();
     }
 
+    public void printAboutGame() {
+        System.out.println(colorMap.getTextColor(Color.BLUE) + "Block Puzzle is a game where you have to place blocks on the board to fill it completely.");
+        System.out.println("You can place blocks on the board and remove them. The goal is to fill the board completely.");
+        System.out.println("You can choose from 3 levels of difficulty or play a random puzzle.");
+        System.out.println("You can also leave a comment and rating after you finish the game.");
+        System.out.println("Let's play!" + colorMap.getDefaultColor() + "\n");
+    }
+
     public void askPlayerNickname() {
         System.out.println("Please enter your nickname: ");
         System.out.print(colorMap.getTextColor(Color.MAGENTA) + "Nickname: " + colorMap.getDefaultColor());
     }
 
     public void printPlayerScore(int score) {
-        System.out.println("Your score: " + score);
+        System.out.println("Your score: " +  colorMap.getTextColor(Color.BLUE) + score + colorMap.getDefaultColor());
     }
 
     public void askPlayerForNextMove() {

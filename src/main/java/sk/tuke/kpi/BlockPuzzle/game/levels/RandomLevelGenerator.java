@@ -85,7 +85,7 @@ public class RandomLevelGenerator {
         var tiles = new Tile[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                tiles[i][j] = Tile.createBoardTile();
+                tiles[i][j] = Tile.createEmptyTile();
             }
         }
 
@@ -149,7 +149,7 @@ public class RandomLevelGenerator {
     private void initializeBoardAndBlockCoordinate(Tile[][] tiles, List<Coordinate> blockAvailableCoordinates) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                tiles[i][j] = Tile.createBoardTile();
+                tiles[i][j] = Tile.createEmptyTile();
                 blockAvailableCoordinates.add(new Coordinate(i, j));
             }
         }
