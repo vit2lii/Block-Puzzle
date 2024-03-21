@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ColorMap {
     private Map<Color, String> backgroundColorMap;
-    private Map<Color, String> textColorMap;
+    private final Map<Color, String> textColorMap;
 
     public ColorMap() {
         this.backgroundColorMap = initializeBackgorundColorMap();

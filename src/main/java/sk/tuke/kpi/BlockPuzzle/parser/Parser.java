@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
 public class Parser {
     private static final Pattern GAME_LEVEL_PATTERN = Pattern.compile("^\\s*(\\d)\\s*$");
     private static final Pattern GAME_PLAY_PATTERN = Pattern.compile("^\\s*(\\d+)\\s*$");
-    private static final Pattern LEAVE_COMMENT_OR_RATING_PATTERN = Pattern.compile("^\\s*(\\d+)\\s*$");
-    private static final Pattern PROCEED_PLAYING_PATTERN = Pattern.compile("^\\s*(\\d+)\\s*$");
+    private static final Pattern YES_NO_PATTERN = Pattern.compile("^\\s*(?:y(?:es)?|no?)\\s*$", Pattern.CASE_INSENSITIVE);
     private static final Pattern PLACE_BLOCK_PATTERN = Pattern.compile("^\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$");
     private static final Pattern REMOVE_BLOCK_PATTERN = Pattern.compile("^\\s*(\\d+)\\s+(\\d+)\\s*$");
 
@@ -88,39 +87,21 @@ public class Parser {
         return null;
     }
 
-    public static ProceedInput proceedInput(String input) {
+    public static YesNoInput yesNoInput(String input) {
         if (input == null || input.trim().isEmpty()) {
-            return ProceedInput.INVALID;
+            return YesNoInput.INVALID;
         }
 
-        final var continuePlayingMatcher = PROCEED_PLAYING_PATTERN.matcher(input);
+        final var continuePlayingMatcher = YES_NO_PATTERN.matcher(input);
         if (continuePlayingMatcher.find()) {
-            try {
-                final var choice = Integer.parseInt(continuePlayingMatcher.group(1));
-                return ProceedInput.getProceedPlayingChoice(choice);
-            } catch (NumberFormatException e) {
-                return ProceedInput.INVALID;
+            final var choice = continuePlayingMatcher.group().toLowerCase();
+            if (choice.startsWith("y")) {
+                return YesNoInput.YES;
+            } else if (choice.startsWith("n")) {
+                return YesNoInput.NO;
             }
         }
 
-        return ProceedInput.INVALID;
-    }
-
-    public static LeaveCommentOrRatingInput leaveCommentOrRatingInput(String input) {
-        if (input == null || input.trim().isEmpty()) {
-            return LeaveCommentOrRatingInput.INVALID;
-        }
-
-        final var leaveMatcher = LEAVE_COMMENT_OR_RATING_PATTERN.matcher(input);
-        if (leaveMatcher.find()) {
-            try {
-                final var choice = Integer.parseInt(leaveMatcher.group(1));
-                return LeaveCommentOrRatingInput.getLeaveCommentOrRatingInput(choice);
-            } catch (NumberFormatException e) {
-                return LeaveCommentOrRatingInput.INVALID;
-            }
-        }
-
-        return LeaveCommentOrRatingInput.INVALID;
+        return YesNoInput.INVALID;
     }
 }

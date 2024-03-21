@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Getter
 public class Player {
-    private String nickname;
+    private final String nickname;
     private int score;
 
     public Player(String nickname) {
@@ -23,13 +23,12 @@ public class Player {
             final var newComment = new Comment(nickname, game, comment, new Date());
             final var commentService = new CommentServiceJDBC();
             commentService.addComment(newComment);
-        } catch (CommentException e) {
-            // do nothing
+        } catch (CommentException ignored) {
         }
     }
 
     public void setRating(String game, String rating) {
-        int playerRating = 0;
+        int playerRating;
         try {
             playerRating = Integer.parseInt(rating);
         } catch (NumberFormatException e) {
@@ -43,8 +42,7 @@ public class Player {
         try {
             final var ratingService = new RatingServiceJDBC();
             ratingService.setRating(new Rating(nickname, game, playerRating, new Date()));
-        } catch (RatingException e) {
-            // do nothing
+        } catch (RatingException ignored) {
         }
     }
 
@@ -53,8 +51,7 @@ public class Player {
             final var scoreService = new ScoreServiceJDBC();
             scoreService.addScore(new Score(nickname, game, score, new Date()));
             this.score = score;
-        } catch (ScoreException e) {
-            // do nothing
+        } catch (ScoreException ignored) {
         }
     }
 }

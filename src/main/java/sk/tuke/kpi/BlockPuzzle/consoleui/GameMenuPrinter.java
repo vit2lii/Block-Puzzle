@@ -1,6 +1,10 @@
 package sk.tuke.kpi.BlockPuzzle.consoleui;
 
 import sk.tuke.kpi.BlockPuzzle.core.board.Color;
+import sk.tuke.kpi.BlockPuzzle.gamestudio.entity.Comment;
+import sk.tuke.kpi.BlockPuzzle.gamestudio.entity.Score;
+
+import java.util.List;
 
 public class GameMenuPrinter {
 
@@ -11,23 +15,54 @@ public class GameMenuPrinter {
     }
 
     public void printStartGameScreen() {
-        System.out.println("\n" + colorMap.getTextColor(Color.YELLOW) +
+        System.out.println("\n" + colorMap.getTextColor(Color.BLUE) +
                 "██████╗░██╗░░░░░░█████╗░░█████╗░██╗░░██╗██████╗░██╗░░░██╗███████╗███████╗██╗░░░░░███████╗\n" +
                 "██╔══██╗██║░░░░░██╔══██╗██╔══██╗██║░██╔╝██╔══██╗██║░░░██║╚════██║╚════██║██║░░░░░██╔════╝\n" +
                 "██████╦╝██║░░░░░██║░░██║██║░░╚═╝█████═╝░██████╔╝██║░░░██║░░███╔═╝░░███╔═╝██║░░░░░█████╗░░\n" +
                 "██╔══██╗██║░░░░░██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║██╔══╝░░██╔══╝░░██║░░░░░██╔══╝░░\n" +
                 "██████╦╝███████╗╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░╚██████╔╝███████╗███████╗███████╗███████╗\n" +
                 "╚═════╝░╚══════╝░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░░╚═════╝░╚══════╝╚══════╝╚══════╝╚══════╝\n" +
-                "\t\t\t\t\t\t\t" + colorMap.getTextColor(Color.BLUE) + "Hello, welcome to the game!!!\n" + colorMap.getDefaultColor());
+                "\t\t\t\t\t\t\t" + colorMap.getTextColor(Color.MAGENTA) + "HELLO, WELCOME TO THE GAME!!!\n" + colorMap.getDefaultColor());
+    }
+
+    public void printHallOfFame(List<Score> topScores) {
+        System.out.println(colorMap.getTextColor(Color.MAGENTA) + "Hall of Fame:" + colorMap.getDefaultColor());
+        for (int i = 0; i < topScores.size(); i++) {
+            if (i == 5) {
+                break;
+            }
+            System.out.println((i + 1) + ". \t" + topScores.get(i).getPlayer() + " - " + topScores.get(i).getPoints() + " pts");
+        }
+        System.out.println();
+    }
+
+    public void printAverageRating(int averageRating) {
+        System.out.println(colorMap.getTextColor(Color.MAGENTA) + "Average rating: " + averageRating + "★" + colorMap.getDefaultColor());
+    }
+
+    public void printComments(List<Comment> comments) {
+        System.out.println(colorMap.getTextColor(Color.MAGENTA) + "Comments:" + colorMap.getDefaultColor());
+        for (int i = 0; i < comments.size(); i++) {
+            if (i == 5) {
+                break;
+            }
+            var comment = comments.get(i);
+            System.out.println(colorMap.getTextColor(Color.BLUE) + comment.getPlayer() + ": " + colorMap.getDefaultColor() + comment.getComment());
+        }
+        System.out.println();
     }
 
     public void askPlayerNickname() {
         System.out.println("Please enter your nickname: ");
-        System.out.print(colorMap.getTextColor(Color.BLUE) + "Nickname: " + colorMap.getDefaultColor());
+        System.out.print(colorMap.getTextColor(Color.MAGENTA) + "Nickname: " + colorMap.getDefaultColor());
+    }
+
+    public void printPlayerScore(int score) {
+        System.out.println("Your score: " + score);
     }
 
     public void askPlayerForNextMove() {
-        System.out.println("What would you like to do?");
+        System.out.println(colorMap.getTextColor(Color.BLUE) + "What would you like to do?" + colorMap.getDefaultColor());
         System.out.println("1. Place a block");
         System.out.println("2. Remove a block");
         System.out.println("3. Surrender");
@@ -35,11 +70,11 @@ public class GameMenuPrinter {
     }
 
     public void askOfGameLevel() {
-        System.out.println("Please choose the game level:");
+        System.out.println(colorMap.getTextColor(Color.BLUE) + "\nPlease choose the game level:" + colorMap.getDefaultColor());
         System.out.println("1. Easy");
         System.out.println("2. Medium");
         System.out.println("3. Hard");
-        System.out.println("4. Daily Puzzle");
+        System.out.println("4. Random Puzzle");
         System.out.println(colorMap.getTextColor(Color.RED) + "5. Exit" + colorMap.getDefaultColor());
         System.out.println("Enter your choice (1, 2, 3 4 or 5): ");
     }
@@ -60,21 +95,21 @@ public class GameMenuPrinter {
 
     public void askToProceed() {
         System.out.println("Shall we keep playing?");
-        System.out.println("Type "+ colorMap.getTextColor(Color.GREEN)+ "'1'" +colorMap.getDefaultColor() +" to continue or "+ colorMap.getTextColor(Color.RED) + "'2'" + colorMap.getDefaultColor() +" to exit.\n");
+        System.out.println("Type " + colorMap.getTextColor(Color.GREEN) + "'y'" + colorMap.getDefaultColor() + " to continue or " + colorMap.getTextColor(Color.RED) + "'n'" + colorMap.getDefaultColor() + " to exit.\n");
     }
 
     public void askLeaveComment() {
         System.out.println("Would you like to leave a comment?");
-        System.out.println("Type "+ colorMap.getTextColor(Color.GREEN)+ "'1'" +colorMap.getDefaultColor() +" to leave a comment or "+ colorMap.getTextColor(Color.RED) + "'2'" + colorMap.getDefaultColor() +" to skip.\n");
+        System.out.println("Type " + colorMap.getTextColor(Color.GREEN) + "'y'" + colorMap.getDefaultColor() + " to leave a comment or " + colorMap.getTextColor(Color.RED) + "'n'" + colorMap.getDefaultColor() + " to skip.\n");
     }
 
     public void askLeaveRating() {
         System.out.println("Would you like to leave a rating?");
-        System.out.println("Type "+ colorMap.getTextColor(Color.GREEN)+ "'1'" +colorMap.getDefaultColor() +" to leave a rating or "+ colorMap.getTextColor(Color.RED) + "'2'" + colorMap.getDefaultColor() +" to skip.\n");
+        System.out.println("Type " + colorMap.getTextColor(Color.GREEN) + "'y'" + colorMap.getDefaultColor() + " to leave a rating or " + colorMap.getTextColor(Color.RED) + "'n'" + colorMap.getDefaultColor() + " to skip.\n");
     }
 
     public void printCommentAdding() {
-        System.out.print("Please enter your comment (max 64 characters): ");
+        System.out.print("Please enter your comment (max. 64 characters): ");
     }
 
     public void printRatingAdding() {

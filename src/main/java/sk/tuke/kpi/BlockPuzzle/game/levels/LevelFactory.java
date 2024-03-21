@@ -10,7 +10,7 @@ public class LevelFactory {
             case HARD:
                 return new HardLevel();
             case DAILY_PUZZLE:
-                return new DailyPuzzle();
+                return new RandomPuzzle();
             default:
                 return null;
         }

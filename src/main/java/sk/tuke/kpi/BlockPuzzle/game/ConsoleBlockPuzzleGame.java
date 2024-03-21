@@ -4,14 +4,15 @@ import sk.tuke.kpi.BlockPuzzle.consoleui.BoardPrinter;
 import sk.tuke.kpi.BlockPuzzle.consoleui.GameMenuPrinter;
 import sk.tuke.kpi.BlockPuzzle.core.board.Block;
 import sk.tuke.kpi.BlockPuzzle.core.board.Board;
-import sk.tuke.kpi.BlockPuzzle.core.exeptions.BlockNotFoundException;
-import sk.tuke.kpi.BlockPuzzle.core.exeptions.InvalidPlacementException;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.*;
 import sk.tuke.kpi.BlockPuzzle.game.levels.GameLevel;
 import sk.tuke.kpi.BlockPuzzle.game.levels.LevelFactory;
+import sk.tuke.kpi.BlockPuzzle.gamestudio.service.CommentServiceJDBC;
+import sk.tuke.kpi.BlockPuzzle.gamestudio.service.RatingServiceJDBC;
+import sk.tuke.kpi.BlockPuzzle.gamestudio.service.ScoreServiceJDBC;
 import sk.tuke.kpi.BlockPuzzle.parser.GamePlayType;
-import sk.tuke.kpi.BlockPuzzle.parser.LeaveCommentOrRatingInput;
 import sk.tuke.kpi.BlockPuzzle.parser.Parser;
-import sk.tuke.kpi.BlockPuzzle.parser.ProceedInput;
+import sk.tuke.kpi.BlockPuzzle.parser.YesNoInput;
 import sk.tuke.kpi.BlockPuzzle.players.Player;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class ConsoleBlockPuzzleGame {
 
     public void startGame() {
         gameMenuPrinter.printStartGameScreen();
+        gameMenuPrinter.printHallOfFame(new ScoreServiceJDBC().getTopScores(GAME_NAME));
+        gameMenuPrinter.printAverageRating(new RatingServiceJDBC().getAverageRating(GAME_NAME));
+        gameMenuPrinter.printComments(new CommentServiceJDBC().getComments(GAME_NAME));
 
         final var player = createPlayer();
 
@@ -51,11 +55,13 @@ public class ConsoleBlockPuzzleGame {
                 playGame(board, blocks, player);
             }
 
+            gameMenuPrinter.printPlayerScore(player.getScore());
+
             final var proceedPlayingChoice = askToProceed();
             switch (proceedPlayingChoice) {
-                case CONTINUE_PLAYING:
+                case YES:
                     break;
-                case LEAVE:
+                case NO:
                     leaveCommentAndRating(player);
                     return;
                 default:
@@ -145,9 +151,9 @@ public class ConsoleBlockPuzzleGame {
         }
     }
 
-    private ProceedInput askToProceed() {
+    private YesNoInput askToProceed() {
         gameMenuPrinter.askToProceed();
-        return Parser.proceedInput(scanner.nextLine());
+        return Parser.yesNoInput(scanner.nextLine());
     }
 
     private void leaveCommentAndRating(Player player) {
@@ -157,8 +163,8 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveComment(Player player) {
         gameMenuPrinter.askLeaveComment();
-        final var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
-        if (choice == LeaveCommentOrRatingInput.LEAVE) {
+        final var choice = Parser.yesNoInput(scanner.nextLine());
+        if (choice == YesNoInput.YES) {
             gameMenuPrinter.printCommentAdding();
             final var input = scanner.nextLine();
             if (input != null && !input.isEmpty() && !input.isBlank() && input.length() <= 64) {
@@ -169,8 +175,8 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveRating(Player player) {
         gameMenuPrinter.askLeaveRating();
-        final var choice = Parser.leaveCommentOrRatingInput(scanner.nextLine());
-        if (choice == LeaveCommentOrRatingInput.LEAVE) {
+        final var choice = Parser.yesNoInput(scanner.nextLine());
+        if (choice == YesNoInput.YES) {
             gameMenuPrinter.printRatingAdding();
             final var input = scanner.nextLine();
             if (input != null && !input.isEmpty() && !input.isBlank()) {

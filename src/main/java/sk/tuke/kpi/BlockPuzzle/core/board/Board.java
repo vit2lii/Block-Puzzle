@@ -97,6 +97,16 @@ public class Board {
         return Arrays.stream(boardShape.getTiles()).flatMap(Arrays::stream).noneMatch(tile -> tile.getTileState() == TileState.EMPTY);
     }
 
+    public static Board createEmptyBoard(int boardSize) {
+        var tiles = new Tile[boardSize][boardSize];
+        for(int i = 0; i < boardSize; i++) {
+            for(int j = 0; j < boardSize; j++) {
+                tiles[i][j] = Tile.createBoardTile();
+            }
+        }
+        return new Board(new Block(tiles));
+    }
+
     @FunctionalInterface
     private interface TileChanger {
         void changeTile(int rowIndex, int colIndex);

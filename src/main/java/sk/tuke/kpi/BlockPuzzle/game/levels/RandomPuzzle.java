@@ -5,14 +5,15 @@ import sk.tuke.kpi.BlockPuzzle.core.board.Board;
 
 import java.util.List;
 
-public class DailyPuzzle implements Level {
+public class RandomPuzzle implements Level {
     @Override
     public Board generateBoard() {
-        return null;
+        return new RandomLevelGenerator().createBoard();
+
     }
 
     @Override
     public List<Block> generateBlocks() {
-        return null;
+        return new RandomLevelGenerator().createBlocks();
     }
 }
