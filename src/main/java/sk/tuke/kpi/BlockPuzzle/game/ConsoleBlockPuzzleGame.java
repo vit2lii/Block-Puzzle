@@ -4,7 +4,8 @@ import sk.tuke.kpi.BlockPuzzle.consoleui.BoardPrinter;
 import sk.tuke.kpi.BlockPuzzle.consoleui.GameMenuPrinter;
 import sk.tuke.kpi.BlockPuzzle.core.board.Block;
 import sk.tuke.kpi.BlockPuzzle.core.board.Board;
-import sk.tuke.kpi.BlockPuzzle.core.exeptions.*;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.BlockNotFoundException;
+import sk.tuke.kpi.BlockPuzzle.core.exeptions.InvalidPlacementException;
 import sk.tuke.kpi.BlockPuzzle.game.levels.GameLevel;
 import sk.tuke.kpi.BlockPuzzle.game.levels.LevelFactory;
 import sk.tuke.kpi.BlockPuzzle.gamestudio.service.CommentServiceJDBC;
@@ -58,7 +59,7 @@ public class ConsoleBlockPuzzleGame {
 
             gameMenuPrinter.printPlayerScore(player.getScore());
 
-            final var proceedPlayingChoice = askToProceed();
+            var proceedPlayingChoice = askToProceed();
             switch (proceedPlayingChoice) {
                 case YES:
                     break;
@@ -122,13 +123,13 @@ public class ConsoleBlockPuzzleGame {
         gameMenuPrinter.askWhatAndWherePlaceBlock();
 
         final var placeBlockInput = Parser.placeBlockInput(scanner.nextLine());
-        if (placeBlockInput == null || placeBlockInput.getBlockIndex() < 1 || placeBlockInput.getBlockIndex() > blocks.size()){
+        if (placeBlockInput == null || placeBlockInput.getBlockIndex() < 1 || placeBlockInput.getBlockIndex() > blocks.size()) {
             gameMenuPrinter.reportPlayerAboutBadInput();
             return;
         }
 
         try {
-            board.placeBlock(blocks.get(placeBlockInput.getBlockIndex() - 1), placeBlockInput.getCoordinate().getY() - 1, placeBlockInput.getCoordinate().getX() - 1) ;
+            board.placeBlock(blocks.get(placeBlockInput.getBlockIndex() - 1), placeBlockInput.getCoordinate().getY() - 1, placeBlockInput.getCoordinate().getX() - 1);
             blocks.remove(blocks.get(placeBlockInput.getBlockIndex() - 1));
         } catch (InvalidPlacementException e) {
             gameMenuPrinter.reportPlayerAboutBadInput();
@@ -154,7 +155,13 @@ public class ConsoleBlockPuzzleGame {
 
     private YesNoInput askToProceed() {
         gameMenuPrinter.askToProceed();
-        return Parser.yesNoInput(scanner.nextLine());
+        YesNoInput choice;
+        while ((choice = Parser.yesNoInput(scanner.nextLine())) == YesNoInput.INVALID) {
+            gameMenuPrinter.reportPlayerAboutBadInput();
+            gameMenuPrinter.askToProceed();
+        }
+
+        return choice;
     }
 
     private void leaveCommentAndRating(Player player) {
@@ -164,7 +171,12 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveComment(Player player) {
         gameMenuPrinter.askLeaveComment();
-        final var choice = Parser.yesNoInput(scanner.nextLine());
+        YesNoInput choice;
+        while ((choice = Parser.yesNoInput(scanner.nextLine())) == YesNoInput.INVALID) {
+            gameMenuPrinter.reportPlayerAboutBadInput();
+            gameMenuPrinter.askLeaveComment();
+        }
+
         if (choice == YesNoInput.YES) {
             gameMenuPrinter.printCommentAdding();
             final var input = scanner.nextLine();
@@ -176,7 +188,12 @@ public class ConsoleBlockPuzzleGame {
 
     private void leaveRating(Player player) {
         gameMenuPrinter.askLeaveRating();
-        final var choice = Parser.yesNoInput(scanner.nextLine());
+        YesNoInput choice;
+        while ((choice = Parser.yesNoInput(scanner.nextLine())) == YesNoInput.INVALID) {
+            gameMenuPrinter.reportPlayerAboutBadInput();
+            gameMenuPrinter.askLeaveRating();
+        }
+
         if (choice == YesNoInput.YES) {
             gameMenuPrinter.printRatingAdding();
             final var input = scanner.nextLine();

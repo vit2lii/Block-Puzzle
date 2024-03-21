@@ -139,6 +139,16 @@ class BoardTest {
     }
 
     @Test
+    void testRemovedBlock() {
+        final var board = Board.createEmptyBoard(5);
+        final var blockToPlace = ComponentInitialization.createBlueSquareBlock();
+        board.placeBlock(blockToPlace, 0, 0);
+
+        final var removedBlock = board.removeBlock(0, 0);
+        assertEquals(blockToPlace, removedBlock);
+    }
+
+    @Test
     void testIsFoldedWithPartiallyFilledBoard() {
         final var board = Board.createEmptyBoard(9);
         final var blockToPlace = ComponentInitialization.createBlueSquareBlock();
