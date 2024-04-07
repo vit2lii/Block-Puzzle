@@ -3,8 +3,8 @@ package com.example.Block.Puzzle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sk.tuke.kpi.BlockPuzzle.core.board.*;
-import sk.tuke.kpi.BlockPuzzle.core.utilities.Coordinate;
+import sk.tuke.gamestudio.BlockPuzzle.core.board.*;
+import sk.tuke.gamestudio.BlockPuzzle.core.utilities.Coordinate;
 
 public class PlacementValidatorTest {
 
