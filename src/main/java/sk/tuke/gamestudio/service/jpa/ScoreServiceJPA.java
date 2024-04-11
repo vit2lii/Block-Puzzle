@@ -19,7 +19,7 @@ public class ScoreServiceJPA implements ScoreService {
 
     @Override
     public void addScore(Score score) throws ScoreException {
-        if (score == null || score.getPlayer() == null || score.getGame() == null || score.getPoints() < 0 || score.getPlayedOn() == null || score.getPlayer().isBlank() || score.getGame().isBlank()){
+        if (isNotValidScore(score)){
             throw new ScoreException("Invalid score");
         }
 
@@ -57,5 +57,9 @@ public class ScoreServiceJPA implements ScoreService {
         } catch (NoResultException ignored) {
             return null;
         }
+    }
+
+    private boolean isNotValidScore(Score score) {
+        return score == null || score.getPlayer() == null || score.getGame() == null || score.getPoints() < 0 || score.getPlayedOn() == null || score.getPlayer().isBlank() || score.getGame().isBlank();
     }
 }

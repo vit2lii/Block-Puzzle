@@ -18,7 +18,7 @@ public class RatingServiceJPA implements RatingService {
 
     @Override
     public void setRating(Rating rating) throws RatingException {
-        if (rating == null || rating.getGame() == null || rating.getPlayer() == null || rating.getRating() <= 0 || rating.getRating() > 5 || rating.getRatedOn() == null || rating.getGame().isBlank() || rating.getPlayer().isBlank()) {
+        if (isNotValidParameter(rating)) {
             throw new RatingException("Invalid rating");
         }
 
@@ -74,10 +74,6 @@ public class RatingServiceJPA implements RatingService {
         entityManager.createNamedQuery("Rating.resetRating").executeUpdate();
     }
 
-    private boolean isNotValidParameter(String parameter) {
-        return parameter == null || parameter.isBlank();
-    }
-
     private Rating getExistingPlayerPreviousRating(Rating newRating) {
         try {
             return entityManager.createNamedQuery("Rating.getExistingPlayer", Rating.class)
@@ -87,5 +83,13 @@ public class RatingServiceJPA implements RatingService {
         } catch (NoResultException ignored) {
             return null;
         }
+    }
+
+    private boolean isNotValidParameter(Rating rating) {
+        return rating == null || rating.getGame() == null || rating.getPlayer() == null || rating.getRating() <= 0 || rating.getRating() > 5 || rating.getRatedOn() == null || rating.getGame().isBlank() || rating.getPlayer().isBlank();
+    }
+
+    private boolean isNotValidParameter(String parameter) {
+        return parameter == null || parameter.isBlank();
     }
 }
