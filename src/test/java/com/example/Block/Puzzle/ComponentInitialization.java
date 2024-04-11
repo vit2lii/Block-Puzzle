@@ -1,6 +1,6 @@
 package com.example.Block.Puzzle;
 
-import sk.tuke.gamestudio.BlockPuzzle.core.board.*;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.board.*;
 
 public class ComponentInitialization {
     static Board createBoardClone(Board board) {

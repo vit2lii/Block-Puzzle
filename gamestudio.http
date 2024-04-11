@@ -1,0 +1,47 @@
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "BlockPuzzle",
+  "player": "MrBeast",
+  "points": 1000,
+  "playedOn": "2020-01-01T00:00:00Z"
+}
+
+###
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "game": "BlockPuzzle",
+  "player": "Kai",
+  "comment": "This game is awesome!",
+  "commentedOn": "2023-05-02T00:00:00Z"
+}
+
+###
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "BlockPuzzle",
+  "player": "IShowSpeed",
+  "rating": 5,
+  "ratedOn": "2024-02-01T00:00:00Z"
+}
+
+###
+GET http://localhost:8080/api/score/BlockPuzzle
+Accept: application/json
+
+###
+GET http://localhost:8080/api/comment/BlockPuzzle
+Accept: application/json
+
+###
+GET http://localhost:8080/api/rating/BlockPuzzle
+Accept: application/json
+
+###
+GET http://localhost:8080/api/rating/BlockPuzzle/IShowSpeed
+Accept: application/json

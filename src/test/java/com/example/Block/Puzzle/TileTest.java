@@ -1,8 +1,8 @@
 package com.example.Block.Puzzle;
 
-import sk.tuke.gamestudio.BlockPuzzle.core.board.Color;
-import sk.tuke.gamestudio.BlockPuzzle.core.board.Tile;
-import sk.tuke.gamestudio.BlockPuzzle.core.board.TileState;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.board.Color;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.board.Tile;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.board.TileState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,9 +1,9 @@
 package com.example.Block.Puzzle;
 
 import org.junit.jupiter.api.Test;
-import sk.tuke.gamestudio.BlockPuzzle.core.board.*;
-import sk.tuke.gamestudio.BlockPuzzle.core.exeptions.BlockNotFoundException;
-import sk.tuke.gamestudio.BlockPuzzle.core.exeptions.InvalidPlacementException;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.board.*;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.exeptions.BlockNotFoundException;
+import sk.tuke.gamestudio.game.BlockPuzzle.core.exeptions.InvalidPlacementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
