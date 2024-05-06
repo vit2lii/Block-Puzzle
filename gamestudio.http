@@ -3,9 +3,9 @@ Content-Type: application/json
 
 {
   "game": "BlockPuzzle",
-  "player": "MrBeast",
-  "points": 1000,
-  "playedOn": "2020-01-01T00:00:00Z"
+  "player": "Xabi",
+  "points": 300,
+  "playedOn": "2021-05-03T00:00:00Z"
 }
 
 ###
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "game": "BlockPuzzle",
-  "player": "Kai",
+  "player": "Marshmello",
   "comment": "This game is awesome!",
   "commentedOn": "2023-05-02T00:00:00Z"
 }
@@ -25,9 +25,9 @@ Content-Type: application/json
 
 {
   "game": "BlockPuzzle",
-  "player": "IShowSpeed",
+  "player": "Pedro",
   "rating": 5,
-  "ratedOn": "2024-02-01T00:00:00Z"
+  "ratedOn": "2022-07-02T00:00:00Z"
 }
 
 ###
